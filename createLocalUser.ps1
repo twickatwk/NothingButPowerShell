@@ -117,7 +117,7 @@ function create-localuser{
 
         }
         catch {
-
+            Write-Host "Error Occurred"
         }
 
     }
