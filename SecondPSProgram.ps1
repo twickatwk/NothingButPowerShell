@@ -65,48 +65,56 @@ function create-localuser{
 
             # Account does not expire, does not contain password, user cannot change their password
             if ($accountExpires -ne "y" -and $containsPassword -ne "y" -and $passwordChange -ne "y"){
-                New-LocalUser -Name $username -NoPassword -UserMayNotChangePassword
+                New-LocalUser -Name $username -FullName $fullname -NoPassword -UserMayNotChangePassword
             }
             # Account does not expire, does not contain password, user can change their password
             elseif ($accountExpires -ne "y" -and $containsPassword -ne "y" -and $passwordChange -eq "y") {
-                New-LocalUser -Name $username -NoPassword
+                New-LocalUser -Name $username -FullName $fullname -NoPassword
             }
             # Account expires, does not contain password, user cannot change their password
             elseif ($accountExpires -eq "y" -and $containsPassword -ne "y" -and $passwordChange -ne "y") {
-                New-LocalUser -Name $username -NoPassword -UserMayNotChangePassword -AccountExpires $expireDate
+                New-LocalUser -Name $username -FullName $fullname -NoPassword -UserMayNotChangePassword -AccountExpires $expireDate
             }
             # Account expires, does not contain password, user can change their password
             elseif ($accountExpires -eq "y" -and $containsPassword -ne "y" -and $passwordChange -eq "y") {
-                New-LocalUser -Name $username -NoPassword -AccountExpires $expireDate
+                New-LocalUser -Name $username -FullName $fullname -NoPassword -AccountExpires $expireDate
             }
 
             # Contain password cases
 
             # Account expires, contain password, password does not expire, user cannot change their password
             elseif ($accountExpires -eq "y" -and $containsPassword -eq "y" -and $passwordExpires -ne "y" -and $passwordChange -ne "y") {
-                New-LocalUser -Name $username -Password $password -PasswordNeverExpires -UserMayNotChangePassword -AccountExpires $expireDate
+                New-LocalUser -Name $username -FullName $fullname -Password $password -PasswordNeverExpires -UserMayNotChangePassword -AccountExpires $expireDate
             }
             # Account expires, contain password, password does not expire, user can change their password
             elseif ($accountExpires -eq "y" -and $containsPassword -eq "y" -and $passwordExpires -ne "y" -and $passwordChange -eq "y") {
-                New-LocalUser -Name $username -Password $password -PasswordNeverExpires -AccountExpires $expireDate
+                New-LocalUser -Name $username -FullName $fullname -Password $password -PasswordNeverExpires -AccountExpires $expireDate
             }
             # Account expires, contain password, password expires, user cannot change their password
             elseif ($accountExpires -eq "y" -and $containsPassword -eq "y" -and $passwordExpires -eq "y" -and $passwordChange -ne "y") {
-                New-LocalUser -Name $username -Password $password -UserMayNotChangePassword -AccountExpires $expireDate
+                New-LocalUser -Name $username -FullName $fullname -Password $password -UserMayNotChangePassword -AccountExpires $expireDate
             }
             # Account expires, contain password, password expires, user can change their password
             elseif ($accountExpires -eq "y" -and $containsPassword -eq "y" -and $passwordExpires -eq "y" -and $passwordChange -eq "y") {
-                
+                New-LocalUser -Name $username -FullName $fullname -Password $password -AccountExpires $expireDate
+            }
+            # Account does not expire, contain password, password does not expire, user cannot change their password
+            elseif ($accountExpires -ne "y" -and $containsPassword -eq "y" -and $passwordExpires -ne "y" -and $passwordChange -ne "y") {
+                New-LocalUser -Name $username -FullName $fullname -Password $password -PasswordNeverExpires -UserMayNotChangePassword
+            }
+            # Account does not expire, contain password, password does not expire, user can change their password
+            elseif ($accountExpires -ne "y" -and $containsPassword -eq "y" -and $passwordExpires -ne "y" -and $passwordChange -eq "y") {
+                New-LocalUser -Name $username -FullName $fullname -Password $password -PasswordNeverExpires
+            }
+            # Account does not expire, contain password, password expires, user cannot change their password
+            elseif ($accountExpires -ne "y" -and $containsPassword -eq "y" -and $passwordExpires -eq "y" -and $passwordChange -ne "y") {
+                New-LocalUser -Name $username -FullName $fullname -Password $password -UserMayNotChangePassword
+            }
+            # Account does not expire, contain password, password expires, user can change their password
+            elseif ($uaccountExpires -ne "y" -and $containsPassword -eq "y" -and $passwordExpires -eq "y" -and $passwordChange -eq "y") {
+                New-LocalUser -Name $username -FullName $fullname -Password $password
             }
 
-
-            if ($containsPassword -eq "Y" -and $accountExpires -eq "Y" -and $passwordExpires -ne "Y"){
-                New-LocalUser -Name $username -Password $password -PasswordNeverExpires -FullName $fullname -Confirm -ErrorAction Stop -AccountExpires $expireDate
-            }elseif ($containsPassword -eq "Y" -and $accountExpires -eq "Y" -and $passwordExpires -eq "Y") {
-                New-LocalUser -Name $username -Password $password -FullName $fullname -Confirm -ErrorAction Stop -AccountExpires $expireDate
-            }elseif ($containsPassword -ne "Y") {
-                New-LocalUser -Name $username -NoPassword -FullName $fullname -Confirm -ErrorAction Stop
-            }
         }
         catch {
 
@@ -114,12 +122,6 @@ function create-localuser{
 
     }
 
-
-    
-       
-    
-        
-    
 }
 
 create-localuser
