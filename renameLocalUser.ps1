@@ -1,5 +1,5 @@
 # Obtain list of user accounts for user to select
-$username = Get-LocalUser | Select-Object -Property "Name" | Out-GridView -PassThru -Title "Select Local User to Remove"
+$username = Get-LocalUser | Select-Object -Property "Name" | Out-GridView -PassThru -Title "Select Local User to Rename"
 
 function get-newusername(){
     $newUsername = Read-Host "Enter New Username"
@@ -15,7 +15,7 @@ function get-newusername(){
 $newUsername = get-newusername
 
 while($newUsername -eq $false) {
-    Write-Host "This username, $newUsername already exists. Please kindly provide another username"
+    Write-Host "This username already exists. Please kindly provide another username"
     $newUsername = get-newusername
 }
 
